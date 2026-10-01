@@ -1,0 +1,42 @@
+---
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0d11" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Přeskočit na obsah</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /*
+    ELEVATE renders in one committed world: the studio's own cinematic dark
+    ground. Single theme by decision (the brief asks for "dark, cinematic"),
+    every color still painted explicitly from tokens.css rather than left to
+    inherit — see that file for the full palette and rationale.
+  */
+</style>

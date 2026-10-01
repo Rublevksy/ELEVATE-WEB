@@ -1,0 +1,68 @@
+---
+// A single focused statement, stacked vertically rather than split into a
+// "big headline left / small paragraph right" header — that split pattern
+// reads as filler in isolation, and this section only has one thing to say.
+// Different layout family from the hero (full-width statement vs. split),
+// per the no-repeated-layout-family rule.
+---
+
+<section class="positioning" id="pristup">
+  <div class="container">
+    <p class="apparatus">Přístup</p>
+    <h2 class="statement">
+      Strategie, design a vývoj<br />
+      bez předávání mezi týmy.
+    </h2>
+    <p class="support">
+      Většina digitálních projektů prochází rukama agentury, freelancerů
+      a vývojářského studia. S každým předáním se něco ztratí. My držíme
+      celý proces v <em>jednom týmu</em>, od prvního nápadu po měřitelný
+      výsledek.
+    </p>
+  </div>
+</section>
+
+<style>
+  .positioning {
+    padding-block: var(--sp-8);
+    border-top: 1px solid var(--edge);
+  }
+
+  .apparatus {
+    margin-bottom: var(--sp-5);
+  }
+
+  .statement {
+    /* Overrides the global h1/h2/h3 uppercase rule: this section's voice is
+       sentence case, on purpose, as a break from the hero and Process
+       headings. */
+    text-transform: none;
+    font-size: clamp(1.9rem, 4vw, 3.1rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--resolved);
+    max-width: 20ch;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .support {
+    margin-top: var(--sp-6);
+    max-width: 58ch;
+    font-size: 1.05rem;
+    color: var(--near);
+  }
+
+  .support em {
+    color: var(--beam);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  @media (max-width: 700px) {
+    .positioning {
+      padding-block: var(--sp-7);
+    }
+  }
+</style>

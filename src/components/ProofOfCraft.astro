@@ -1,0 +1,167 @@
+---
+// The one deliberate technical showcase past the hero. Rather than
+// describing the studio's design principle in prose, this section lets a
+// visitor operate it: exactly one panel holds focus at a time, the other
+// two recede. It is the same "one resolved element" rule the hero's mark
+// established, now applied to a real interface decision instead of an
+// abstract graphic, kept away from optics vocabulary entirely.
+const panels = [
+  {
+    id: 'nadpis',
+    label: 'Nadpis',
+    body: 'První věta, kterou návštěvník přečte. Musí být jasná do tří vteřin, jinak ji přeskočí.',
+  },
+  {
+    id: 'vizual',
+    label: 'Vizuál',
+    body: 'Obraz nebo produkt, který nabídku dokazuje. Ne dekorace navíc, ale skutečný důkaz.',
+  },
+  {
+    id: 'akce',
+    label: 'Akce',
+    body: 'Jedno tlačítko, jeden další krok. Dvě stejně důležité akce vedle sebe znamenají žádnou.',
+  },
+];
+---
+
+<section class="proof" id="dukaz">
+  <div class="container">
+    <h2>Jedna věc najednou.<br />Nikdy víc.</h2>
+    <p class="proof-lede">
+      Rozhraní, které se snaží ukázat všechno najednou, neukáže nic. Proto
+      má každá obrazovka, kterou navrhujeme, jeden jasný fokus. Zbytek
+      ustupuje do pozadí, přesně jako tady.
+    </p>
+
+    <div class="panels" data-focus="nadpis" role="group" aria-label="Ukázka hierarchie pozornosti">
+      {
+        panels.map((panel, i) => (
+          <button
+            class="panel"
+            class:list={{ 'is-focal': i === 0 }}
+            data-panel={panel.id}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            <span class="panel-label">{panel.label}</span>
+            <p class="panel-body">{panel.body}</p>
+          </button>
+        ))
+      }
+    </div>
+    <p class="proof-hint">Vyberte panel a sledujte, co ustoupí do pozadí.</p>
+  </div>
+</section>
+
+<style>
+  .proof {
+    padding-block: var(--sp-8);
+    border-top: 1px solid var(--edge);
+  }
+
+  .proof h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 16ch;
+  }
+
+  .proof-lede {
+    margin-top: var(--sp-5);
+    max-width: 58ch;
+    font-size: 1.05rem;
+  }
+
+  .panels {
+    margin-top: var(--sp-7);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--edge);
+    border: 1px solid var(--edge);
+  }
+
+  .panel {
+    background: var(--slab);
+    border: 0;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    padding: var(--sp-6) var(--sp-5);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--sp-3);
+    transition: filter var(--rack), opacity var(--rack), background var(--rack);
+  }
+
+  .panels[data-focus] .panel {
+    filter: blur(3px) saturate(0.4);
+    opacity: 0.45;
+  }
+
+  .panels[data-focus] .panel.is-focal {
+    filter: none;
+    opacity: 1;
+    background: var(--slab-2);
+  }
+
+  .panel-label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    font-variation-settings: 'wdth' 112;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--far);
+  }
+
+  .panel.is-focal .panel-label {
+    color: var(--beam);
+  }
+
+  .panel-body {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--near);
+    margin: 0;
+  }
+
+  .panel.is-focal .panel-body {
+    color: var(--resolved);
+  }
+
+  .proof-hint {
+    margin-top: var(--sp-4);
+    font-size: 0.82rem;
+    /* --near, not --far: --far only clears WCAG AA at large sizes; this is
+       13px regular-weight body copy. */
+    color: var(--near);
+  }
+
+  @media (max-width: 780px) {
+    .panels {
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      min-height: auto;
+    }
+  }
+</style>
+
+<script>
+  const group = document.querySelector<HTMLElement>('.panels');
+
+  if (group) {
+    group.addEventListener('click', (event) => {
+      const btn = (event.target as HTMLElement).closest<HTMLButtonElement>('.panel');
+      if (!btn) return;
+
+      group.querySelectorAll<HTMLButtonElement>('.panel').forEach((p) => {
+        const active = p === btn;
+        p.classList.toggle('is-focal', active);
+        p.setAttribute('aria-pressed', String(active));
+      });
+      group.dataset.focus = btn.dataset.panel ?? '';
+    });
+  }
+</script>

@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Positioning from '../components/Positioning.astro';
+import Process from '../components/Process.astro';
+import ProofOfCraft from '../components/ProofOfCraft.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="ELEVATE | Digitální studio z Prahy"
+  description="Strategie, UX/UI design, vývoj a optimalizace pod jednou střechou. ELEVATE je digitální studio se sídlem v Praze."
+>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <Positioning />
+    <Process />
+    <ProofOfCraft />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>

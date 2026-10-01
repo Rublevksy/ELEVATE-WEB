@@ -1,0 +1,252 @@
+---
+// Primary navigation. One line at desktop, height capped well under 80px.
+// The CTA intent here ("Domluvit konzultaci") is repeated verbatim in the
+// hero, the contact section, and the footer — never a synonym, so a visitor
+// scanning the page never has to decide whether two labels mean the same
+// thing.
+const links = [
+  { href: '#proces', label: 'Proces' },
+  { href: '#dukaz', label: 'Přístup' },
+  { href: '#kontakt', label: 'Kontakt' },
+];
+---
+
+<header class="nav-wrap">
+  <nav class="nav container" aria-label="Hlavní navigace">
+    <a href="#hlavni" class="brand" aria-label="ELEVATE, domů">
+      <img src="/logo-elevate.png" alt="ELEVATE" width="140" height="30" class="brand-mark" />
+    </a>
+
+    <ul class="links">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a href="#kontakt" class="nav-cta">Domluvit konzultaci</a>
+
+    <button class="menu-btn" type="button" aria-label="Otevřít navigaci" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-nav" id="mobile-nav" hidden>
+    <ul>
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+      <li><a href="#kontakt" class="mobile-cta">Domluvit konzultaci</a></li>
+    </ul>
+  </div>
+</header>
+
+<style>
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(11 13 17 / 72%);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--rack-fast), background var(--rack-fast);
+  }
+
+  .nav-wrap[data-scrolled='true'] {
+    border-bottom-color: var(--edge);
+    background: rgb(11 13 17 / 92%);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    height: 72px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    flex: none;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    height: 22px;
+    width: auto;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+  }
+
+  .links a {
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--near);
+    letter-spacing: 0.01em;
+    transition: color var(--rack-fast);
+    position: relative;
+    padding-block: var(--sp-1);
+  }
+
+  .links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 1px;
+    background: var(--beam);
+    transition: right var(--rack-fast);
+  }
+
+  .links a:hover {
+    color: var(--resolved);
+  }
+
+  .links a:hover::after {
+    right: 0;
+  }
+
+  .nav-cta {
+    flex: none;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--void);
+    background: var(--resolved);
+    padding: 0.65em 1.3em;
+    transition: background var(--rack-fast), transform var(--rack-fast);
+  }
+
+  .nav-cta:hover {
+    background: var(--beam);
+  }
+
+  .nav-cta:active {
+    transform: scale(0.98);
+  }
+
+  .menu-btn {
+    display: none;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 1px solid var(--edge-lit);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .menu-btn span {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--resolved);
+    transition: transform var(--rack-fast), opacity var(--rack-fast);
+  }
+
+  .menu-btn[aria-expanded='true'] span:first-child {
+    transform: translateY(3px) rotate(45deg);
+  }
+
+  .menu-btn[aria-expanded='true'] span:last-child {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  .mobile-nav {
+    border-top: 1px solid var(--edge);
+    background: var(--depth);
+  }
+
+  .mobile-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: var(--sp-3) var(--gutter) var(--sp-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .mobile-nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--resolved);
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--edge);
+  }
+
+  .mobile-cta {
+    color: var(--beam) !important;
+    font-weight: 700 !important;
+  }
+
+  @media (max-width: 860px) {
+    .links,
+    .nav-cta {
+      display: none;
+    }
+
+    .menu-btn {
+      display: flex;
+    }
+
+    .nav {
+      height: 64px;
+    }
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('.nav-wrap');
+  const menuBtn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const mobileNav = document.querySelector<HTMLElement>('.mobile-nav');
+
+  if (wrap) {
+    const setScrolled = () => {
+      wrap.dataset.scrolled = window.scrollY > 8 ? 'true' : 'false';
+    };
+    setScrolled();
+    // Passive listener; only toggles a boolean attribute, no layout reads
+    // that would force reflow, so this stays cheap on scroll.
+    window.addEventListener('scroll', setScrolled, { passive: true });
+  }
+
+  if (menuBtn && mobileNav) {
+    menuBtn.addEventListener('click', () => {
+      const open = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', String(!open));
+      mobileNav.hidden = open;
+      menuBtn.setAttribute('aria-label', open ? 'Otevřít navigaci' : 'Zavřít navigaci');
+    });
+
+    mobileNav.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        menuBtn.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+        menuBtn.setAttribute('aria-label', 'Otevřít navigaci');
+      });
+    });
+  }
+</script>

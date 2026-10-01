@@ -1,0 +1,246 @@
+---
+// The hero is the thesis, not a header. Asymmetric 7/5 split: the claim on
+// the left at genuinely oversized scale, the real ELEVATE mark suspended in
+// the right field with the one authored motion moment (the arc drawing in,
+// the mark resolving out of the lattice). No stock imagery, no fabricated
+// product screenshot: nothing to fake yet, and a faked one is worse than
+// none. Real product photography replaces this field the day it exists.
+// Exactly four text elements: kicker, headline, subhead, CTA.
+---
+
+<section class="hero" id="hlavni">
+  <div class="lattice" aria-hidden="true"></div>
+
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="apparatus kicker">Digitální studio · Praha</p>
+      <h1>Digitální produkty <br class="bp" />s jasným zaměřením.</h1>
+      <p class="lede">
+        Strategie, UX/UI design, vývoj a optimalizace pod jednou střechou.
+        Jeden tým odpovědný za výsledek od nápadu po launch.
+      </p>
+      <div class="hero-actions">
+        <a href="#kontakt" class="cta-primary">
+          <span>Domluvit konzultaci</span>
+        </a>
+        <a href="#proces" class="cta-secondary">Jak pracujeme</a>
+      </div>
+    </div>
+
+    <div class="hero-mark" aria-hidden="true">
+      <svg class="arc" viewBox="0 0 520 520" fill="none">
+        <defs>
+          <linearGradient id="arcGrad" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="#136DFD" stop-opacity="0" />
+            <stop offset="18%" stop-color="#2BA0F5" />
+            <stop offset="60%" stop-color="#00CDFF" />
+            <stop offset="100%" stop-color="#5CEEF5" />
+          </linearGradient>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#00CDFF" stop-opacity="0.16" />
+            <stop offset="100%" stop-color="#00CDFF" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <circle cx="260" cy="260" r="230" fill="url(#glow)" />
+        <path
+          id="arcPath"
+          d="M 60 420 C 60 260 140 90 420 60"
+          stroke="url(#arcGrad)"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+      </svg>
+      <img
+        src="/logo-elevate.png"
+        alt="ELEVATE"
+        width="440"
+        height="94"
+        class="mark-img"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+
+  <a href="#proces" class="scroll-cue" aria-label="Přejít na obsah stránky">
+    <span class="scroll-line"></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--sp-9) var(--sp-7);
+    overflow: hidden;
+  }
+
+  .lattice {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent calc(8.333% - 1px),
+      var(--edge) calc(8.333% - 1px),
+      var(--edge) 8.333%
+    );
+    -webkit-mask-image: radial-gradient(120% 90% at 60% 30%, black 40%, transparent 92%);
+    mask-image: radial-gradient(120% 90% at 60% 30%, black 40%, transparent 92%);
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    gap: var(--sp-7);
+    align-items: center;
+  }
+
+  .kicker {
+    margin-bottom: var(--sp-4);
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.1rem, 4.6vw, 3.9rem);
+    max-width: 15em;
+  }
+
+  .lede {
+    margin-top: var(--sp-5);
+    font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+    max-width: 46ch;
+    color: var(--near);
+  }
+
+  .hero-actions {
+    margin-top: var(--sp-6);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    flex-wrap: wrap;
+  }
+
+  .cta-primary {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    background: var(--resolved);
+    color: var(--void);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 1em 1.8em;
+    transition: background var(--rack-fast), transform var(--rack-fast);
+  }
+
+  .cta-primary:hover {
+    background: var(--beam);
+  }
+
+  .cta-primary:active {
+    transform: scale(0.98);
+  }
+
+  .cta-secondary {
+    text-decoration: none;
+    color: var(--near);
+    font-weight: 500;
+    font-size: 0.92rem;
+    border-bottom: 1px solid var(--edge-lit);
+    padding-bottom: 2px;
+    transition: color var(--rack-fast), border-color var(--rack-fast);
+  }
+
+  .cta-secondary:hover {
+    color: var(--resolved);
+    border-color: var(--beam);
+  }
+
+  .hero-mark {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .arc {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #arcPath {
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+  }
+
+  .mark-img {
+    position: relative;
+    width: min(360px, 68%);
+    height: auto;
+    filter: drop-shadow(0 0 40px rgb(0 205 255 / 12%));
+  }
+
+  .scroll-cue {
+    position: relative;
+    z-index: 1;
+    align-self: center;
+    display: block;
+    width: 1px;
+    height: 46px;
+  }
+
+  .scroll-line {
+    display: block;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--beam), transparent);
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-7);
+    }
+
+    .hero-mark {
+      order: -1;
+      max-width: 280px;
+      margin-inline: auto;
+    }
+
+    .bp {
+      display: none;
+    }
+
+    .hero {
+      padding-top: var(--sp-8);
+    }
+  }
+</style>
+
+<script>
+  // The one authored moment: the arc resolves into view once, tied to load
+  // rather than scroll, echoing the logotype's own hairline-to-resolved
+  // grammar. Respects reduced-motion by shipping the arc already drawn.
+  const path = document.getElementById('arcPath') as SVGPathElement | null;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (path) {
+    if (reduceMotion) {
+      path.style.strokeDashoffset = '0';
+    } else {
+      requestAnimationFrame(() => {
+        path.style.transition = 'stroke-dashoffset 1800ms cubic-bezier(0.16, 1, 0.3, 1) 200ms';
+        path.style.strokeDashoffset = '0';
+      });
+    }
+  }
+</script>

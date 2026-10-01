@@ -1,0 +1,231 @@
+/*
+  ELEVATE design tokens — The Focal Plane.
+
+  The logotype is already a depth-of-field statement: hairline stencil
+  letters (unresolved) beside one saturated, sharp arrow (resolved). Every
+  token below exists to let a page repeat that idea structurally rather than
+  decoratively. See DESIGN.md for the full system rationale once it lands.
+
+  Single committed world (cinematic dark), so tokens are declared once on
+  :root rather than split across light/dark blocks — this is a deliberate
+  choice per the brief ("dark, cinematic"), not an omission.
+*/
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('/fonts/archivo-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('/fonts/archivo-latinext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  /* Ground — near-black, never pure #000 (kills depth, see redesign audit) */
+  --void: #06070a;
+  --depth: #0b0d11;
+  --slab: #12151a;
+  --slab-2: #171b21;
+  --slab-3: #1c2028;
+
+  /* Structure */
+  --edge: rgb(233 241 255 / 7%);
+  --edge-lit: rgb(233 241 255 / 16%);
+  --edge-strong: rgb(233 241 255 / 28%);
+
+  /* The brand ramp — sampled pixel-by-pixel from the real logo raster,
+     never invented. A light-temperature gradient, not a flat accent:
+     hottest at the arrow's tip, cooling toward its base. */
+  --flare: #5ceef5;
+  --beam: #00cdff;
+  --signal: #2ba0f5;
+  --deep: #136dfd;
+
+  /* Text */
+  --resolved: #f4f7fa; /* 16.8:1 on --depth */
+  --near: #98a2ae; /*  7.2:1 on --depth */
+  --far: #5a626d; /*  3.0:1 on --depth — large text / labels only */
+
+  /* Type */
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --measure: 64ch;
+
+  /* Spacing scale — one scale, used everywhere */
+  --sp-1: 0.5rem;
+  --sp-2: 0.75rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2rem;
+  --sp-6: 3rem;
+  --sp-7: 4rem;
+  --sp-8: 6rem;
+  --sp-9: 9rem;
+
+  /* Layout */
+  --container: 1440px;
+  --gutter: clamp(1.5rem, 4vw, 4rem);
+  --rail: 96px;
+
+  /* Motion — the one authored grammar: resolve, not slide-and-fade */
+  --rack: 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  --rack-fast: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--depth);
+  color: var(--resolved);
+  font-family: var(--font-display);
+  font-weight: 380;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--beam);
+  color: var(--void);
+}
+
+:focus-visible {
+  outline: 2px solid var(--beam);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--slab-2) var(--depth);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--depth);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slab-2);
+  border: 3px solid var(--depth);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--slab-3);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  font-variation-settings: 'wdth' 100;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  max-width: var(--measure);
+  color: var(--near);
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* The apparatus label — the logotype's own register (wide, light, tracked).
+   Used sparingly: nav, hero meta, section kickers. Never one per section. */
+.apparatus {
+  font-size: 10.5px;
+  font-weight: 400;
+  font-variation-settings: 'wdth' 112;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--near);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--sp-3);
+  top: -100px;
+  z-index: 100;
+  background: var(--beam);
+  color: var(--void);
+  padding: var(--sp-2) var(--sp-4);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top var(--rack-fast);
+}
+
+.skip-link:focus {
+  top: var(--sp-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

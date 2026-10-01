@@ -1,0 +1,160 @@
+---
+// The one-team positioning, rendered as a single connected sequence rather
+// than four identical bordered cards (the generic "3 equal cards" pattern,
+// just with a fourth added, is still the pattern). Numbering here is
+// justified: this is a real, ordered sequence, not decorative 01/02/03.
+const stages = [
+  {
+    n: '01',
+    name: 'Strategie',
+    body: 'Definujeme cíl, cílovou skupinu a měřitelná kritéria úspěchu dřív, než padne první designový návrh.',
+  },
+  {
+    n: '02',
+    name: 'UX/UI Design',
+    body: 'Navrhujeme rozhraní srozumitelné na první pohled a zároveň vizuálně na úrovni prémiových značek.',
+  },
+  {
+    n: '03',
+    name: 'Vývoj',
+    body: 'Stavíme rychlý, udržovatelný kód. Ne prototyp, který se rozpadne při první další změně.',
+  },
+  {
+    n: '04',
+    name: 'Optimalizace',
+    body: 'Po spuštění měříme výkon a chování uživatelů a produkt na základě dat průběžně vylepšujeme.',
+  },
+];
+---
+
+<section class="process" id="proces">
+  <div class="container">
+    <h2>Jeden proces,<br />čtyři disciplíny.</h2>
+
+    <ol class="stage-line">
+      {
+        stages.map((stage) => (
+          <li class="stage">
+            <span class="stage-n">{stage.n}</span>
+            <span class="stage-name">{stage.name}</span>
+            <p class="stage-body">{stage.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    padding-block: var(--sp-8);
+    border-top: 1px solid var(--edge);
+  }
+
+  .process h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    max-width: 16ch;
+    margin-bottom: var(--sp-8);
+  }
+
+  .stage-line {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--edge-lit);
+  }
+
+  .stage {
+    padding: var(--sp-5) var(--sp-4) 0 0;
+    border-right: 1px solid var(--edge);
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(10px);
+    transition: opacity var(--rack), filter var(--rack), transform var(--rack);
+  }
+
+  .stage:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .stage.is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  .stage-n {
+    display: block;
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--beam);
+    font-variant-numeric: tabular-nums;
+    margin-top: -1px;
+    padding-top: var(--sp-3);
+  }
+
+  .stage-name {
+    display: block;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--resolved);
+    margin-top: var(--sp-2);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .stage-body {
+    margin-top: var(--sp-3);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--near);
+    max-width: 32ch;
+  }
+
+  @media (max-width: 860px) {
+    .stage-line {
+      grid-template-columns: 1fr;
+      border-top: 0;
+    }
+
+    .stage {
+      border-right: 0;
+      border-top: 1px solid var(--edge-lit);
+      padding: var(--sp-5) 0 var(--sp-5);
+    }
+
+    .stage:first-child {
+      border-top: 1px solid var(--edge-lit);
+    }
+  }
+</style>
+
+<script>
+  const stages = document.querySelectorAll<HTMLElement>('.stage');
+
+  if ('IntersectionObserver' in window && stages.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const index = Array.from(stages).indexOf(el);
+            el.style.transitionDelay = `${Math.max(index, 0) * 90}ms`;
+            el.classList.add('is-visible');
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: '0px 0px -10% 0px' }
+    );
+
+    stages.forEach((s) => observer.observe(s));
+  } else {
+    stages.forEach((s) => s.classList.add('is-visible'));
+  }
+</script>
